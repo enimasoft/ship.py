@@ -1,0 +1,244 @@
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# This is a 'ship_config.yaml' file that is a configuration file
+# that is used by 'ship.py'.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# Here's the explanation of all parameters that are mentioned in this
+# file (please, feel free to skip to the bottom to see the actual
+# configuration below to get the general idea):
+#
+#     profile_1       - you can configure and use different profiles
+#                       so, for example, you can have 'profile_1' or
+#                       'profile_2'. This is just an example, you can
+#                       name them however you want: 'project_alpha',
+#                       'project_beta', etc.
+#
+#     username        - this refers to the 'username' that you use to
+#                       connect to your Server (VPS, Web Hosting, etc.),
+#                       as in "username@0.0.0.0:/www/example.com".
+#                              ^^^^^^^^
+#
+#     server_ip       - this refers to the IP address of your Server
+#                       that you want to connect to as in
+#                       "username@0.0.0.0:/www/example.com"
+#                                 ^^^^^^^
+#
+#     server_port     - this refers to the connection type. For example,
+#                       if the connection is established with an SSH, the
+#                       default port is '443'. However, there are cases
+#                       when developers change the default port for
+#                       security reasons, so it could be e.g. '50123'.
+#
+#     pk_path_dir     - these refer to the Private Key, where you have
+#     pk_path_env       to specify the path to it. If you have the PK
+#     pk_vault          somewhere on your PC, you can specify the path
+#     pk_type           using one of these methods:
+#
+#                           (1) pk_path_dir
+#                               - PK is stored in a directory
+#
+#                           (2) pk_path_env
+#                               - PK is accessed w/ Environment Variable
+#
+#                           (3) pk_vault
+#                               - PK is stored in a vault
+#
+#                           (x) pk_type
+#                               - If you choose 'pk_path_dir' or 'pk_path_env',
+#                                 then you should also specify the type of
+#                                 the key, which is either of these:
+#
+#                                     RSA, DSS, ECDSA, Ed25519.
+#
+#                       Example of using 'pk_path_dir':
+#
+#                           pk_path_dir:       C:\path\to\private_key.pk
+#                           pk_type:           RSA
+#
+#                       Example of using 'pk_path_env':
+#
+#                           pk_path_env:       pk_path
+#                           pk_type:           RSA
+#
+#                       Example of using 'pk_vault':
+#
+#                           pk_vault:
+#                               address:       "https://vault.hashicorp.com"
+#                               token:         "VAULT_TOKEN"
+#                               secret_path:   "secret/ssh-keys"
+#
+#     project_dir     - this refers to the default directory of your project
+#     server_base_dir - this refers to the path of your remote directory
+#
+#                       Example: "C:/users/Richter/my_project/src"
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#                                 this could be the project directory
+#
+#                                 "{project_dir}/src"
+#                                 "{server_base_dir}/example.com/src"
+#
+#                       WINDOWS: if you're on Windows, the 'project_dir'
+#                                path should be written with backslashes:
+#
+#                                    C:\users\Richter\my_project\src\
+#
+#                                    {project_dir}\src
+#
+#                                Most likely, your 'server_base_dir' is a
+#                                remote Linux server, so it's just slashes:
+#
+#                                    /home/www/example.com/src
+#
+#                                    {server_base_dir}/example.com/src
+#
+#     include_base_dir - this is a boolean value, which has two options:
+#
+#                        true - ship the base directory too, not just its
+#                               contents.
+#
+#                        false - don't ship the base directory, ship only
+#                                its contents.
+#
+#                        This is related to 'project_dir', so if your
+#                        specified path is:
+#
+#                            "C:\users\Richter\my_project"
+#                                              ^^^^^^^^^^^
+#                                              base_dir
+#
+#                        then: if it's 'true' you're going to ship "my_project"
+#                        as well, along with its contents. However, if it's
+#                        'false' - you're ignoring the "my_project" folder
+#                        itself and only ship whatever it contains.
+#
+# Now, in case you don't want to ship your entire project directory,
+# you can specify which directories to ship in particular. For example:
+#
+#     directories
+#       source        - this refers to the directory you want to ship.
+#       destination   - this refers to where you want to ship.
+#
+#       exclude       - this refers to the directories that you don't
+#                       want to ship that are inside your shipping
+#                       directory, so you can exclude them.
+#
+#       ignore        - this refers to the files that you don't want
+#                       to ship that are inside your shipping directory,
+#                       so you can ignore them.
+#
+#                       Example: "*.git" - this will ignore all files
+#                                with the extension ".git".
+#
+#       options
+#         recursive   - this is a boolean value, which has two options:
+#
+#                       true - you want to ship every subdirectory within
+#                              the specified 'source' path, and not just
+#                              the files it contains in its root.
+#
+#                       false - you want to ship only the files that the
+#                               specified 'source' path contains, ignoring
+#                               all subdirectories.
+#
+#         overwrite   - this is a boolean value, which has two options:
+#
+#                       true - you want to ship to the 'destination' path
+#                              overwriting all existing files with the new
+#                              shipping files
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+# And here's an example configuration:
+#
+#
+#      1| profile_1:
+#      2|   username:          richter
+#      3|   server_ip:         12.114.82.99
+#      4|   server_port:       443
+#      5| 
+#      6|   pk_vault:
+#      7|     address:         "https://vault.hashicorp.com"
+#      8|     token:           "vault_token"
+#      9|     secret_path:     "secret/ssh-keys"
+#     10| 
+#     11|   project_dir:       C:/users/Richter/my_working_dir
+#     12|   server_base_dir:   /www/richterbelmont.com
+#     13| 
+#     14|   directories:
+#     15|     - source:        {project_dir}/src
+#     16|       destination:   {server_base_dir}/src
+#     17|       exclude:
+#     18|         - "{project_dir}/src/git"
+#     19|       ignore:
+#     20|         - "*.git"
+#     21|         - "*.yaml"
+#     22|       options:
+#     23|         - recursive: true
+#     24|           overwrite: true
+#     25| 
+#     26|     - source:        {project_dir}/docs
+#     27|       destination:   {server_base_dir}/docs
+#     28|       options:
+#     29|         - recursive: true
+#     30|           overwrite: true
+#
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#
+# Default profile
+#
+
+default:
+  server_ip:         # Example: 55.12.12.252
+  server_port:       # Example: 12345
+  username:          # Example: vampireslayer
+  password:          # Example: hDjfe*3w#dc
+
+  project_dir:       # Example: C:\Users\Richter\Desktop\test
+  include_base_dir:  true
+
+  server_base_dir:   # Example: /home/vampireslayer/example.com
+
+  directories:
+    - source:        # Example: "{project_dir}/src"
+      destination:   # Example: "{server_base_dir}/test/src"
+      exclude:
+        - # Example: "{project_dir}/src/git"
+        - # Example: "{project_dir}/src/svn"
+        - # Example: "{project_dir}/src/.git"
+      ignore:
+        - # Example: "*.git"
+        - # Example: "*.svn"
+      options:
+        - recursive: true
+          overwrite: true
+
+    - source:        # Example: "{project_dir}/docs"
+      destination:   # Example: "{server_base_dir}/test/docs"
+      options:
+        - recursive: true
+          overwrite: true
+
+#
+# Backup profile
+#
+
+backup:
+  src_root_dir:      #Example: C:\Users\Richter\Desktop\test
+  dst_root_dir:      #Example: E:\test
+
+  directories:
+    - source:        #Example: "{src_root_dir}\\src"
+      destination:   #Example: "{dst_root_dir}\\src"
+      options:
+        - recursive: true
+          overwrite: true
+
+    - source:        #Example: "{src_root_dir}\\docs"
+      destination:   #Example: "{dst_root_dir}\\docs"
+      options:
+        - recursive: true
+          overwrite: true
