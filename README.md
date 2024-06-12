@@ -17,3 +17,10 @@ If you don't already have these modules installed, the script will throw an exce
 `ship.py` - runs the script, which reads the `ship_config.yaml`. No profile specified, so defaults to the `default` profile.
 
 `ship.py --profile=backup` - runs the script using the profile `backup` from the `ship_config.yaml` file.
+
+### Features:
+
+- Various authentication methods: password, private key (RSA, DSA, ECDSA, Ed25519), vault;
+- Choose which subdirectories to exclude;
+- Choose which files to ignore based on their extension;
+- Backup profile: copy from local drive to external drive.
