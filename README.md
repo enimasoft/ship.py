@@ -2,6 +2,15 @@
 
 # ship.py
 
+This script allows you to copy files from local directory to remote directory.
+
+### Dependencies:
+The next external modules are required to use this script:
+- `yaml` - to be able to parse the config file;
+- `paramiko` - to be able to establish an SFTP connection;
+- `requests` - in case you want to authenticate using the Vault.
+
+If you don't already have these modules installed, the script will throw an exception with an appropriate message (e.g. "You need to install the X library").
 
 ### Usage:
 
